@@ -26,25 +26,32 @@ public class MenuUIHandler : MonoBehaviour {
         for (int i = 0; i < highscoreObj.transform.childCount; i++) {
             highscores[i] = highscoreObj.transform.GetChild(i).gameObject;
         }
-    }
 
-    void Start() {
-        foreach (GameObject highscore in highscores) {
-            GameObject place = highscore.transform.Find("Place").gameObject;
-            Debug.Log(place.GetComponent<TextMeshProUGUI>().text);
-        }
+        // Load in Game data
+        GameManager.Instance.highscores = highscores;
+        usernameInput.text = GameManager.Instance.Username;
     }
 
     public void StartGame() {
-        if (usernameInput.text != "") SceneManager.LoadScene(1);
-        StartCoroutine("DisplayErrorMessage", usernameErrorLabel);
+        if (usernameInput.text == "") {
+            StartCoroutine("DisplayErrorMessage", usernameErrorLabel);
+            return;
+        }
+
+        // Username Persistence through scenes
+        GameManager.Instance.Username = usernameInput.text;
+        SceneManager.LoadScene(1);
     }
 
+    public void Exit() {
 #if UNITY_EDITOR
-    public void Exit() { EditorApplication.ExitPlaymode(); }
+        EditorApplication.ExitPlaymode();
 #else
-    public void Exit() { Application.Quit(); }
+        Application.Quit();
 #endif
+
+        GameManager.Instance.SaveHighscores();
+    }
 
 
     private IEnumerator DisplayErrorMessage(TextMeshProUGUI _errorLabel) {
