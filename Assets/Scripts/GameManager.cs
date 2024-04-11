@@ -19,9 +19,8 @@ public class GameManager : MonoBehaviour {
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        LoadHighscores();
     }
-
-    private void Start() { LoadHighscores(); }
 
     [System.Serializable]
     public class SaveData { public HighScoreData[] highscores; }
@@ -92,7 +91,7 @@ public class GameManager : MonoBehaviour {
 
             if (int.Parse(highscore.score) < _score) {
                 data.score = _score.ToString();
-                data.username = _username;
+                data.username = _username.ToUpper();
 
                 _score = int.Parse(highscore.score);
                 _username = highscore.username;

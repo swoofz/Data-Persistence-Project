@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,6 +9,7 @@ public class MainManager : MonoBehaviour {
 
     public Text ScoreText;
     public GameObject GameOverText;
+    public GameObject ReturnButton;
 
     private bool m_Started = false;
     private int m_Points;
@@ -60,6 +59,10 @@ public class MainManager : MonoBehaviour {
     public void GameOver() {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        ReturnButton.SetActive(true);
         GameManager.Instance.UpdateHighscores(GameManager.Instance.Username, m_Points);
+        GameManager.Instance.SaveHighscores();
     }
+
+    public void GotoMainMenu() { SceneManager.LoadScene(0); }
 }
