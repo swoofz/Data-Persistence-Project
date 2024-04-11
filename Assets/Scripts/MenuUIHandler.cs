@@ -8,7 +8,9 @@ using TMPro;
 using UnityEditor;
 #endif
 
-
+// Sets the script to be executed later than all default scripts
+// This is helpful for UI, since other things may need to be initialized before setting the UI
+[DefaultExecutionOrder(1000)]
 public class MenuUIHandler : MonoBehaviour {
 
     public GameObject username;
@@ -28,7 +30,10 @@ public class MenuUIHandler : MonoBehaviour {
         }
 
         // Load in Game data
-        GameManager.Instance.highscores = highscores;
+        if (GameManager.Instance.hasLoadData)
+            GameManager.Instance.LoadHighScoresData(highscores);
+        else
+            GameManager.Instance.StoreHighscoresData(highscores);
         usernameInput.text = GameManager.Instance.Username;
     }
 

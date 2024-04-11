@@ -60,5 +60,6 @@ public class MainManager : MonoBehaviour {
     public void GameOver() {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        GameManager.Instance.UpdateHighscores(GameManager.Instance.Username, m_Points);
     }
 }
